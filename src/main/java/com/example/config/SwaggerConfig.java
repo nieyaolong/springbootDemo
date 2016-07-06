@@ -4,6 +4,7 @@ import com.fasterxml.classmate.TypeResolver;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,7 +31,6 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
 @Configuration
 @EnableSwagger2
-//@ComponentScan("com.example")
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
 public class SwaggerConfig {
 
@@ -42,7 +42,6 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-        logger.error("start init SwaggerConfig");
         System.out.println("###test log");
         ArrayList<ResponseMessage> messageList = new ArrayList<>();
         messageList.add(new ResponseMessageBuilder().code(500).message("internal error").responseModel(new ModelRef("Error")).build());
