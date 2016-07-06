@@ -1,23 +1,18 @@
 package com.example.controller;
 
-import org.springframework.boot.*;
-import org.springframework.boot.autoconfigure.*;
-import org.springframework.web.bind.annotation.*;
+import com.example.model.User;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @EnableAutoConfiguration
 public class Example {
 
-    private class testObj {
-        private String result;
-
-        testObj(String result) {
-            this.result = result;
-        }
-    }
-
-    @RequestMapping("/test")
-    testObj home() {
-        return new testObj("Hello World!");
+    @ApiOperation(value = "test api", notes = "return paramter name")
+    @RequestMapping("/user")
+    User home(String name) {
+        return new User(name, User.Gender.male);
     }
 }

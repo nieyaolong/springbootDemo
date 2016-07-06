@@ -30,7 +30,7 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
 @Configuration
 @EnableSwagger2
-@ComponentScan("com.example")
+//@ComponentScan("com.example")
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
 public class SwaggerConfig {
 
