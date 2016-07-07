@@ -42,7 +42,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-        System.out.println("###test log");
+        logger.info("##SwaggerConfig: api");
         ArrayList<ResponseMessage> messageList = new ArrayList<>();
         messageList.add(new ResponseMessageBuilder().code(500).message("internal error").responseModel(new ModelRef("Error")).build());
 

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -15,6 +16,7 @@ import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -33,7 +35,7 @@ public class MessageConvertConfiguration extends WebMvcConfigurerAdapter {
     private class JsonHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
         @Override
         protected boolean supports(Class<?> clazz) {
-            return !clazz.isPrimitive();
+            return true;
         }
 
         @Override
@@ -55,8 +57,13 @@ public class MessageConvertConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        logger.error("test");
-        converters.add(0, new JsonHttpMessageConverter());
+        logger.info("##Install webapi message converter");
+        JsonHttpMessageConverter converter = new JsonHttpMessageConverter();
+        ArrayList<MediaType> typeList = new ArrayList<>();
+        typeList.add(MediaType.ALL);
+        converter.setSupportedMediaTypes(typeList);
+        converters.add(0, converter);
+//        super.extendMessageConverters(converters);
     }
 
 }
