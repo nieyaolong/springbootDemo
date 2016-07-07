@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Configuration
+@Configuration
 public class MessageConvertConfiguration extends WebMvcConfigurerAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(MessageConvertConfiguration.class);
@@ -35,7 +35,7 @@ public class MessageConvertConfiguration extends WebMvcConfigurerAdapter {
     private class JsonHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
         @Override
         protected boolean supports(Class<?> clazz) {
-            return true;
+            return clazz.getPackage().getName().equals("com.example.model");
         }
 
         @Override
@@ -60,7 +60,7 @@ public class MessageConvertConfiguration extends WebMvcConfigurerAdapter {
         logger.info("##Install webapi message converter");
         JsonHttpMessageConverter converter = new JsonHttpMessageConverter();
         ArrayList<MediaType> typeList = new ArrayList<>();
-        typeList.add(MediaType.ALL);
+        typeList.add(MediaType.APPLICATION_JSON);
         converter.setSupportedMediaTypes(typeList);
         converters.add(0, converter);
     }
