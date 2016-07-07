@@ -42,7 +42,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-        logger.info("##SwaggerConfig: api");
+        logger.info("##SwaggerConfig");
         ArrayList<ResponseMessage> messageList = new ArrayList<>();
         messageList.add(new ResponseMessageBuilder().code(500).message("internal error").responseModel(new ModelRef("Error")).build());
 
@@ -63,6 +63,6 @@ public class SwaggerConfig {
     }
 
     private ApiInfo getApiInfo() {
-        return new ApiInfo("title", "desc", "1.0", "", new Contact("name", "url", "email"), "", "");
+        return new ApiInfo("招生派API文档", "测试用", "1.0", "", new Contact("Yaolong Nie", "", "nieyaolong@51zhiquan.com"), "", "");
     }
 }

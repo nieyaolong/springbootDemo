@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+//@Configuration
 public class MessageConvertConfiguration extends WebMvcConfigurerAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(MessageConvertConfiguration.class);
@@ -63,7 +63,6 @@ public class MessageConvertConfiguration extends WebMvcConfigurerAdapter {
         typeList.add(MediaType.ALL);
         converter.setSupportedMediaTypes(typeList);
         converters.add(0, converter);
-//        super.extendMessageConverters(converters);
     }
 
 }
