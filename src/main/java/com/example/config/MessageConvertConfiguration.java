@@ -1,5 +1,6 @@
 package com.example.config;
 
+import com.example.controller.ResponseBase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,18 +25,10 @@ public class MessageConvertConfiguration extends WebMvcConfigurerAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(MessageConvertConfiguration.class);
 
-    @Data
-    @NoArgsConstructor
-    private class WebApiResponse {
-        private int code;
-        private String error;
-        private Object data;
-    }
-
     private class JsonHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
         @Override
         protected boolean supports(Class<?> clazz) {
-            return clazz.getPackage().getName().equals("com.example.model");
+            return clazz.getPackage().getName().equals("com.example.domain.model");
         }
 
         @Override
@@ -47,10 +40,8 @@ public class MessageConvertConfiguration extends WebMvcConfigurerAdapter {
         protected void writeInternal(Object o, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
             outputMessage.getHeaders().add("Content-Type", "application/json");
 
-            WebApiResponse response = new WebApiResponse();
-            response.setCode(0);
-            response.setData(o);
-            outputMessage.getBody().write((new ObjectMapper()).writeValueAsBytes(response));
+            ResponseBase res = ResponseBase.success(o);
+            outputMessage.getBody().write((new ObjectMapper()).writeValueAsBytes(res));
             outputMessage.getBody().flush();
         }
     }
