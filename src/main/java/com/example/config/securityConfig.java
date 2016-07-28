@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,6 +21,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class securityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -34,7 +36,6 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -47,7 +48,8 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("admin").password("123456").roles("ADMIN");
+                .withUser("admin").password("123456").roles("ADMIN").and()
+                .withUser("user").password("123456").roles("USER");
     }
 
     @Bean
@@ -68,14 +70,14 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
     class AuthSuccessHandler implements AuthenticationSuccessHandler {
         @Override
         public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            response.setStatus(HttpServletResponse.SC_OK);
         }
     }
 
     class RestAuthEntryPoint implements AuthenticationEntryPoint {
         @Override
         public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
         }
     }
 }
